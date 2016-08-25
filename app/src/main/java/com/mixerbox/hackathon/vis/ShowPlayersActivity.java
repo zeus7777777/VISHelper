@@ -3,6 +3,7 @@ package com.mixerbox.hackathon.vis;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -20,7 +21,7 @@ public class ShowPlayersActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.team_name)).setText(getIntent().getStringExtra("TEAM_NAME"));
 
         ArrayList<Player> playerList = new ArrayList<Player>();
-        
+
         PlayersAdapter adapter = new PlayersAdapter(ShowPlayersActivity.this, playerList);
         ListView listView = (ListView) findViewById(R.id.lv);
         listView.setAdapter(adapter);
@@ -36,5 +37,8 @@ public class ShowPlayersActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        setTitle("Roster");
     }
+
 }

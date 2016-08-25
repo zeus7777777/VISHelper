@@ -2,6 +2,7 @@ package com.mixerbox.hackathon.vis;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 public class PlayerInfo extends AppCompatActivity {
@@ -17,6 +18,5 @@ public class PlayerInfo extends AppCompatActivity {
         ((TextView)findViewById(R.id.player_number)).setText(getIntent().getStringExtra("NUMBER"));
 
         setTitle("Player Information");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
