@@ -189,6 +189,7 @@ public class DB {
         for(int i=0;i<cs.getCount();i++)
         {
             ans.add(new MatchInfo(cs.getString(0), cs.getString(1)));
+            cs.moveToNext();
         }
         return ans;
     }

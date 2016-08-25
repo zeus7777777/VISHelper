@@ -39,10 +39,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //
-
-        //TestDb.testAll(MainActivity.this);
-
+        Button btnHistory = (Button) findViewById(R.id.btn_history);
+        btnHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(MainActivity.this, ShowHistoryActivity.class);
+                startActivity(it);
+            }
+        });
 
         //Intent it = new Intent(MainActivity.this, ShowStatisticsActivity.class);
         //Log.d("mylengg", ""+new DB(MainActivity.this).getMatchByTime("8787").games.get(0).recordList.size());

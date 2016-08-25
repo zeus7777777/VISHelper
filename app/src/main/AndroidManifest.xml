@@ -21,7 +21,8 @@
         <activity android:name=".ShowTeamActivity" />
         <activity android:name=".ShowPlayersActivity" />
         <activity android:name=".PlayerInfo" />
-        <activity android:name=".ShowStatisticsActivity"></activity>
+        <activity android:name=".ShowStatisticsActivity" />
+        <activity android:name=".ShowHistoryActivity"></activity>
     </application>
 
 </manifest>
