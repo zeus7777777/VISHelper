@@ -19,7 +19,7 @@ public class Game {
 	public void shiftClockWise()
 	{
 		Player tmp = gameLocation[0];
-		for(int i=0;i<6;i++)
+		for(int i=0;i<5;i++)
 		{
 			gameLocation[i] = gameLocation[i+1];
 		}
