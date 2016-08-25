@@ -33,7 +33,7 @@ public class Team {
 	
 	public Player getPlayer(int index)
 	{
-		return null;
+		return playerList.get(index);
 	}
 	
 	public void movePlayer(int from, int to)
