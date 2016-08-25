@@ -162,6 +162,11 @@ public class DB {
                     cv.put(DBRecordBaseColumn.COLUMN_NAME_param1, rr.substitutionUp);
                     cv.put(DBRecordBaseColumn.COLUMN_NAME_param2, rr.substitutionDown);
                 }
+                else if(rr.recordType==RecordType.FOUL)
+                {
+                    cv.put(DBRecordBaseColumn.COLUMN_NAME_param1, rr.playerName);
+                    cv.put(DBRecordBaseColumn.COLUMN_NAME_param2, rr.foulType.toString());
+                }
                 db.insert(DBRecordBaseColumn.TABLE_NAME, DBRecordBaseColumn.COLUMN_NAME_matchid, cv);
             }
         }
@@ -238,6 +243,10 @@ public class DB {
             {
                 ans.games.get(game_id).addRecord(new Record(RecordType.SUBSTITUTION, cs.getString(3), cs.getString(4)));
 
+            }
+            else if(record_type.equals(RecordType.FOUL.toString()))
+            {
+                ans.games.get(game_id).addRecord(new Record(RecordType.FOUL, cs.getString(3), cs.getString(4)));
             }
             else
             {

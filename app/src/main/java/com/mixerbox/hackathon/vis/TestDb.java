@@ -49,4 +49,35 @@ public class TestDb {
             Log.d("numgame", mm.numGame+"");
         }
     }
+
+    static void testAll(Context ctx)
+    {
+        DB db = new DB(ctx);
+
+        ArrayList<String> al  =db.getTeamList();
+
+        Player p1 = new Player("qqzeus@", "zeus_nick@", Position.MIDDLE_BLOCKER, "250");
+        Player p2 = new Player("qqzeus@2", "zeus2_nick@", Position.SETTER, "160");
+        ArrayList<Player> al1 = new ArrayList<>();
+        al1.add(p1);
+        al1.add(p2);
+        Team t1 = new Team("qqteam1@", al1);
+        //db.writePlayers(t1);
+
+        al = db.getTeamList();
+        for(int i=0;i<al.size();i++)
+        {
+            Log.w("inserted teams", al.get(i));
+            Team tm = db.getTeamByTeamName(al.get(i));
+            Log.w("team content", tm.getPlayer(0).toString());
+        }
+        t1 = db.getTeamByTeamName(al.get(0));
+
+        Record r1 = new Record(RecordType.ACTION, t1.playerList.get(0).toString(), ActionType.ATTACK, ActionResultType.ATTEMPT);
+        Record r2 = new Record(RecordType.TEAM_FAULT);
+        Game gg = new Game(t1, 0 ,0);
+        gg.addRecord(r1);
+        gg.addRecord(r2);
+
+    }
 }

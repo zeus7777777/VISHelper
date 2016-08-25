@@ -6,6 +6,7 @@ public class Record {
 	ActionType actionType;
 	ActionResultType actionResultType;
 	String playerName;
+	FoulType foulType;
 	
 	public Record(RecordType _recordType)
 	{
@@ -27,6 +28,13 @@ public class Record {
 		actionType = _actionType;
 		actionResultType = _actionResultType;
 	}
+
+	public Record(RecordType _recordType, String _playerName, FoulType _foulType)
+	{
+		recordType = _recordType;
+		playerName = _playerName;
+		foulType = _foulType;
+	}
 	
 	@Override
 	public String toString()
@@ -42,6 +50,10 @@ public class Record {
 		else if(recordType==RecordType.SUBSTITUTION)
 		{
 			return substitutionUp+" up. " + substitutionDown + " down.";
+		}
+		else if(recordType==RecordType.FOUL)
+		{
+			return playerName + " foul: " + foulType.toString();
 		}
 		else
 		{
@@ -66,6 +78,10 @@ public class Record {
 				return 0;
 			if(actionResultType==ActionResultType.EXCELLENT)
 				return 1;
+		}
+		if(recordType==RecordType.FOUL)
+		{
+			return -1;
 		}
 		return 0;
 	}

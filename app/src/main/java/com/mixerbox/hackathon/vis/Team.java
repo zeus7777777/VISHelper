@@ -14,6 +14,7 @@ public class Team {
 	public Team(String _teamName)
 	{
 		teamName = _teamName;
+		playerList = new ArrayList<>();
 	}
 	
 	public void setTeamName(String _teamName)

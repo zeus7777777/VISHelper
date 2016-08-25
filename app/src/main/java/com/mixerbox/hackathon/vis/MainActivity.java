@@ -21,9 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TestDb.addTestTeam(MainActivity.this);
-        TestDb.addTestMatch(MainActivity.this);
-        TestDb.getTestMatchList(MainActivity.this);
+        TestDb.testAll(MainActivity.this);
 
         Button editBtn = (Button) findViewById(R.id.btn_edit_team);
         editBtn.setOnClickListener(new View.OnClickListener() {
