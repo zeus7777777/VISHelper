@@ -31,7 +31,6 @@
         android:layout_height="wrap_content">
         <TextView
             android:text="Number of Set: "
-            android:id="@+id/ed_num_game"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <EditText
@@ -57,6 +56,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:text="Max Score: "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/ed_max_score"
+            android:text="100"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
             android:text="Last set score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -66,4 +78,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
+    <Button
+        android:id="@+id/btn_start_match"
+        android:text="Start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>

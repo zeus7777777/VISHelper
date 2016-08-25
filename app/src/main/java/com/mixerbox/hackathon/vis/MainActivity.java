@@ -14,6 +14,8 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    static Match match;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +30,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ShowTeamActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        Button btnNewMatch = (Button)findViewById(R.id.btn_new_match);
+        btnNewMatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MatchInfoActivity.class);
                 startActivity(intent);
             }
         });
