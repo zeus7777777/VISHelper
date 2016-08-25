@@ -5,6 +5,7 @@ public class Record {
 	String substitutionUp, substitutionDown; 
 	ActionType actionType;
 	ActionResultType actionResultType;
+	Player player;
 	
 	public Record(RecordType _recordType)
 	{
