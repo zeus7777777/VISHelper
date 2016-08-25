@@ -1,5 +1,6 @@
 package com.mixerbox.hackathon.vis;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Game {
 	int myScore, oppositeScore;
@@ -103,5 +104,85 @@ public class Game {
 			myScore++;
 		else if (effect==-1)
 			oppositeScore++;
+	}
+
+	public HashMap<String, PlayerStatistic> getStatistic()
+	{
+		HashMap<String, PlayerStatistic> hm = new HashMap<>();
+		for(int i=0;i<recordList.size();i++)
+		{
+			Record rr = recordList.get(i);
+			if(!hm.containsKey(rr.playerName))
+			{
+				hm.put(rr.playerName, new PlayerStatistic());
+			}
+			set_statistic(rr, hm.get(rr.playerName));
+		}
+		return hm;
+	}
+
+	private void set_statistic(Record rr, PlayerStatistic ps)
+	{
+		if(rr.recordType==RecordType.ACTION)
+		{
+			if(rr.actionType==ActionType.ATTACK)
+			{
+				if(rr.actionResultType==ActionResultType.SUCCESS)
+					ps.result[0]++;
+				else if(rr.actionResultType==ActionResultType.ATTEMPT)
+					ps.result[1]++;
+				else if(rr.actionResultType==ActionResultType.FAULT)
+					ps.result[2]++;
+			}
+			else if(rr.actionType==ActionType.BLOCK)
+			{
+				if(rr.actionResultType==ActionResultType.SUCCESS)
+					ps.result[3]++;
+				else if(rr.actionResultType==ActionResultType.ATTEMPT)
+					ps.result[4]++;
+				else if(rr.actionResultType==ActionResultType.FAULT)
+					ps.result[5]++;
+			}
+			else if(rr.actionType==ActionType.SERVE)
+			{
+				if(rr.actionResultType==ActionResultType.SUCCESS)
+					ps.result[6]++;
+				else if(rr.actionResultType==ActionResultType.ATTEMPT)
+					ps.result[7]++;
+				else if(rr.actionResultType==ActionResultType.FAULT)
+					ps.result[8]++;
+			}
+			else if(rr.actionType==ActionType.DIG)
+			{
+				if(rr.actionResultType==ActionResultType.EXCELLENT)
+					ps.result[9]++;
+				else if(rr.actionResultType==ActionResultType.ATTEMPT)
+					ps.result[10]++;
+				else if(rr.actionResultType==ActionResultType.FAULT)
+					ps.result[11]++;
+			}
+			else if(rr.actionType==ActionType.SET)
+			{
+				if(rr.actionResultType==ActionResultType.EXCELLENT)
+					ps.result[12]++;
+				else if(rr.actionResultType==ActionResultType.ATTEMPT)
+					ps.result[13]++;
+				else if(rr.actionResultType==ActionResultType.FAULT)
+					ps.result[14]++;
+			}
+			else if(rr.actionType==ActionType.RECEPTION)
+			{
+				if(rr.actionResultType==ActionResultType.EXCELLENT)
+					ps.result[15]++;
+				else if(rr.actionResultType==ActionResultType.ATTEMPT)
+					ps.result[16]++;
+				else if(rr.actionResultType==ActionResultType.FAULT)
+					ps.result[17]++;
+			}
+		}
+		else if(rr.recordType==RecordType.FOUL)
+		{
+			ps.foul.add(rr.foulType.toString());
+		}
 	}
 }
