@@ -13,12 +13,13 @@
         android:id="@+id/btn_add_team"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Team"/>
+        android:text="Add a Team" />
 
     <ListView
+        android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/btn_add_team"
-        android:id="@+id/lv"></ListView>
+        android:layout_marginTop="5dp"></ListView>
 
 </RelativeLayout>

@@ -1,8 +1,10 @@
 package com.mixerbox.hackathon.vis;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
@@ -40,6 +42,6 @@ public class PlayersAdapter extends BaseAdapter {
         ((TextView) v.findViewById(R.id.player_name)).setText(player.name);
         ((TextView) v.findViewById(R.id.player_number)).setText(player.number);
 
-        return view;
+        return v;
     }
 }
