@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class RotationSheetActivity extends AppCompatActivity {
 
     static String[] numbers = {"I", "II", "III", "IV", "V", "VI", "L"};
+    static Player[] lastLocation;
     int cur_loc;
     boolean[] loc_filled;
     Game game;
@@ -43,6 +45,7 @@ public class RotationSheetActivity extends AppCompatActivity {
 
         tvGameNum = (TextView)findViewById(R.id.tv_game_num);
         tvGameNum.setText("Game "+MainActivity.match.games.size());
+
         btnRotateClockwise = (ImageButton)findViewById(R.id.btn_rotate_clockwise);
         btnRotateClockwise.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +79,30 @@ public class RotationSheetActivity extends AppCompatActivity {
         }
 
         gvPlayers = (GridView)findViewById(R.id.gv_players);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        gvPlayers.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                if (lastLocation == null) {
+                    lastLocation = new Player[7];
+                } else {
+                    for (int i = 0; i < 7; i++) {
+                        if (lastLocation[i] != null) {
+                            game.gameLocation[i] = lastLocation[i];
+                            loc_filled[i] = true;
+                            int idx = game.myTeam.playerList.indexOf(lastLocation[i]);
+                            TextView v = (TextView)gvPlayers.getChildAt(idx);
+                            if (v == null) Log.d("XDDDDD", Integer.toString(idx));
+                            v.setClickable(true);
+                            v.setTextColor(Color.LTGRAY);
+                        }
+                    }
+                }
+                showLocation();
+                gvPlayers.getViewTreeObserver().removeOnPreDrawListener(this);
+                return true;
+            }
+        });
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, MainActivity.match.myTeam.getPlayerNumName());
         gvPlayers.setAdapter(adapter);
         gvPlayers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -85,10 +111,7 @@ public class RotationSheetActivity extends AppCompatActivity {
                 if (cur_loc < 0) return;
                 loc_filled[cur_loc] = true;
                 game.gameLocation[cur_loc] = game.myTeam.getPlayer(position);
-                //v.setEnabled(false);
                 v.setClickable(true);
-                Log.d("a", v.isClickable()+"");
-                //v.setFocusable(false);
                 ((TextView)v).setTextColor(Color.LTGRAY);
                 cur_loc = find_empty();
                 showLocation();
@@ -96,10 +119,14 @@ public class RotationSheetActivity extends AppCompatActivity {
         });
 
 
+
         btnConfirm = (Button)findViewById(R.id.btn_confirm_loc);
         btnConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                for (int i = 0; i < 7; i++) {
+                    lastLocation[i] = game.gameLocation[i];
+                }
                 Intent intent = new Intent(RotationSheetActivity.this, GameActivity.class);
                 startActivity(intent);
             }
@@ -116,10 +143,7 @@ public class RotationSheetActivity extends AppCompatActivity {
                 loc_filled[idx] = false;
                 int i = game.myTeam.playerList.indexOf(game.gameLocation[idx]);
                 TextView v = (TextView) gvPlayers.getChildAt(i);
-                //v.setEnabled(true);
                 v.setClickable(false);
-                Log.d("b", v.isClickable()+"");
-                //v.setFocusable(true);
                 v.setTextColor(Color.BLACK);
                 game.gameLocation[idx] = null;
                 tvLoc[idx].setText(numbers[idx]);

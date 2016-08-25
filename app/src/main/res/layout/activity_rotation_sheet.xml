@@ -51,7 +51,7 @@
             <TextView
                 android:id="@+id/tv_loc3"
                 android:text="IV"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -59,7 +59,7 @@
             <TextView
                 android:id="@+id/tv_loc2"
                 android:text="III"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -67,7 +67,7 @@
             <TextView
                 android:id="@+id/tv_loc1"
                 android:text="II"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -81,7 +81,7 @@
             <TextView
                 android:id="@+id/tv_loc4"
                 android:text="V"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -89,7 +89,7 @@
             <TextView
                 android:id="@+id/tv_loc5"
                 android:text="XI"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -97,7 +97,7 @@
             <TextView
                 android:id="@+id/tv_loc0"
                 android:text="I"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -118,7 +118,7 @@
             <TextView
                 android:id="@+id/tv_loc6"
                 android:text="L"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:layout_width="0dp"
