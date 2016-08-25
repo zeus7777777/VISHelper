@@ -5,9 +5,13 @@ import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ButtonBarLayout;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -107,6 +111,7 @@ public class GameActivity extends AppCompatActivity {
         for (int i = 0; i < 6; i++) {
             tvGameLoc[i] = (TextView)findViewById(getResources().getIdentifier("tv_game_loc"+i, "id", getPackageName()));
             tvGameLoc[i].setOnClickListener(new tvOnClickListener());
+            tvGameLoc[i].setOnLongClickListener(new tvOnLongClickListener());
         }
 
         btnATK = (Button)findViewById(R.id.btn_atk);
@@ -178,17 +183,61 @@ public class GameActivity extends AppCompatActivity {
         });
 
         refreshActivity();
-
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_setting, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.ac_undo:
+                return true;
+            default:
+                return true;
+        }
+    }
 
     private class tvOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
+            clearCurPlayer();
             int idx = getTvIndex(view);
             curPlayer = game.gameLocation[idx];
             ((TextView)view).setTextColor(Color.RED);
             if (curActionResultType != null) newResult(curActionResultType);
+        }
+    }
+
+    private class tvOnLongClickListener implements View.OnLongClickListener {
+        @Override
+        public boolean onLongClick(View view) {
+            int idx = getTvIndex(view);
+            curPlayer = game.gameLocation[idx];
+            ((TextView)view).setTextColor(Color.RED);
+            final PopupMenu popupmenu = new PopupMenu(GameActivity.this, view);
+            popupmenu.inflate(R.menu.popup_menu);
+            popupmenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.menu_substitute:
+                            break;
+                        default:
+                            FoulType foulType = FoulType.valueOf(item.getTitle().toString().toUpperCase().replace(' ', '_'));
+                            game.addRecord(new Record(RecordType.FOUL, curPlayer.toString(), foulType));
+                            clearCurPlayer();
+                            break;
+                    }
+                    return true;
+                }
+            });
+            popupmenu.show();
+            return true;
         }
     }
 
@@ -266,11 +315,14 @@ public class GameActivity extends AppCompatActivity {
 
     void clearCurPlayer() {
         int idx;
+        if (curPlayer == null) return;
         for (idx = 0; idx < 6; idx++) {
             if (game.gameLocation[idx] == curPlayer) break;
         }
-        tvGameLoc[idx].setTextColor(Color.BLACK);
-        curPlayer = null;
+        if (idx < 6) {
+            tvGameLoc[idx].setTextColor(Color.BLACK);
+            curPlayer = null;
+        }
     }
 
     private void showActionBtn() {
