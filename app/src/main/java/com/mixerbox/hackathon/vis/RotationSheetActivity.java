@@ -23,6 +23,7 @@ public class RotationSheetActivity extends AppCompatActivity {
     boolean[] loc_filled;
     Game game;
 
+    TextView tvGameNum;
     ImageButton btnRotateClockwise;
     ImageButton btnRotateCounterClockwise;
     TextView[] tvLoc;
@@ -40,6 +41,8 @@ public class RotationSheetActivity extends AppCompatActivity {
         game = new Game(MainActivity.match.myTeam, 0, 0);
         MainActivity.match.games.add(game);
 
+        tvGameNum = (TextView)findViewById(R.id.tv_game_num);
+        tvGameNum.setText("Game "+MainActivity.match.games.size());
         btnRotateClockwise = (ImageButton)findViewById(R.id.btn_rotate_clockwise);
         btnRotateClockwise.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class ShowTeamActivity extends AppCompatActivity {
 
     DB db = new DB(ShowTeamActivity.this);
-    static final int ADD_TEAM = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
