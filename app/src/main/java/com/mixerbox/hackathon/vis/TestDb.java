@@ -56,13 +56,13 @@ public class TestDb {
 
         ArrayList<String> al  =db.getTeamList();
 
-        Player p1 = new Player("qqzeus@", "zeus_nick@", Position.MIDDLE_BLOCKER, "250");
-        Player p2 = new Player("qqzeus@2", "zeus2_nick@", Position.SETTER, "160");
+        Player p1 = new Player("xtxqqzeus@", "zzzeus_nick@", Position.MIDDLE_BLOCKER, "50");
+        Player p2 = new Player("xtxqqzeus@2", "zzzeus2_nick@", Position.SETTER, "60");
         ArrayList<Player> al1 = new ArrayList<>();
         al1.add(p1);
         al1.add(p2);
-        Team t1 = new Team("qqteam1@", al1);
-        //db.writePlayers(t1);
+        Team t1 = new Team("xtxteam1@8787", al1);
+        db.writePlayers(t1);
 
         al = db.getTeamList();
         for(int i=0;i<al.size();i++)
@@ -71,13 +71,15 @@ public class TestDb {
             Team tm = db.getTeamByTeamName(al.get(i));
             Log.w("team content", tm.getPlayer(0).toString());
         }
-        t1 = db.getTeamByTeamName(al.get(0));
+        t1 = db.getTeamByTeamName(al.get(1));
 
-        Record r1 = new Record(RecordType.ACTION, t1.playerList.get(0).toString(), ActionType.ATTACK, ActionResultType.ATTEMPT);
+        Record r1 = new Record(RecordType.ACTION, t1.playerList.get(1).toString(), ActionType.ATTACK, ActionResultType.ATTEMPT);
         Record r2 = new Record(RecordType.TEAM_FAULT);
         Game gg = new Game(t1, 0 ,0);
         gg.addRecord(r1);
         gg.addRecord(r2);
-
+        Match mm = new Match(1, "oppo1", 25, 25, 15, t1, "8787", 0, 1);
+        mm.addGame(gg);
+        db.writeMatch(mm);
     }
 }

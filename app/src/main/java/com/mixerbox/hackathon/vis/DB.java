@@ -230,8 +230,6 @@ public class DB {
         cs = db.query(DBRecordBaseColumn.TABLE_NAME, proj, where, whereargs, null, null,null);
         cs.moveToFirst();
 
-        Log.d("LENGTH", ans.games.size()+"");
-
         for(int i = 0;i<cs.getCount();i++)
         {
             int game_id = cs.getInt(1);

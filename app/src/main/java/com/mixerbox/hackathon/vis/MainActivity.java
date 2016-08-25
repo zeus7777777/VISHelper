@@ -21,8 +21,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TestDb.testAll(MainActivity.this);
-
         Button editBtn = (Button) findViewById(R.id.btn_edit_team);
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,5 +39,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //
+
+        //TestDb.testAll(MainActivity.this);
+
+        /*
+        Intent it = new Intent(MainActivity.this, ShowStatisticsActivity.class);
+        Log.d("mylengg", ""+new DB(MainActivity.this).getMatchByTime("8787").games.get(0).recordList.size());
+        ShowStatisticsActivity.hm = new DB(MainActivity.this).getMatchByTime("8787").games.get(0).getStatistic();
+        startActivity(it);*/
     }
 }
