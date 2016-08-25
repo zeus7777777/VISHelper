@@ -77,6 +77,8 @@ public class Record {
 			if(actionResultType==ActionResultType.ATTEMPT)
 				return 0;
 			if(actionResultType==ActionResultType.EXCELLENT)
+				return 0;
+			if(actionResultType==ActionResultType.SUCCESS)
 				return 1;
 		}
 		if(recordType==RecordType.FOUL)
