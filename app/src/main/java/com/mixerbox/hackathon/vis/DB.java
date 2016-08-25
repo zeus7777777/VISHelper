@@ -225,7 +225,7 @@ public class DB {
         proj = new String[]{DBRecordBaseColumn.COLUMN_NAME_matchid, DBRecordBaseColumn.COLUMN_NAME_gameid,
             DBRecordBaseColumn.COLUMN_NAME_type, DBRecordBaseColumn.COLUMN_NAME_param1,
             DBRecordBaseColumn.COLUMN_NAME_param2, DBRecordBaseColumn.COLUMN_NAME_param3};
-        where = DBRecordBaseColumn._ID + " = ?";
+        where = DBRecordBaseColumn.COLUMN_NAME_matchid + " = ?";
         whereargs = new String[]{tmp_id+""};
         cs = db.query(DBRecordBaseColumn.TABLE_NAME, proj, where, whereargs, null, null,null);
         cs.moveToFirst();
@@ -234,7 +234,7 @@ public class DB {
         {
             int game_id = cs.getInt(1);
             String record_type = cs.getString(2);
-            if(record_type.equals(RecordType.TEAM_FAULT.toString()) || record_type.equals(RecordType.OPPONENT_ERROR))
+            if(record_type.equals(RecordType.TEAM_FAULT.toString()) || record_type.equals(RecordType.OPPONENT_ERROR.toString()))
             {
                 ans.games.get(game_id).addRecord(new Record(RecordType.valueOf(record_type)));
             }
@@ -252,6 +252,7 @@ public class DB {
                 ans.games.get(game_id).addRecord(new Record(RecordType.ACTION, cs.getString(3),
                     ActionType.valueOf( cs.getString(4)), ActionResultType.valueOf( cs.getString(5))));
             }
+            cs.moveToNext();
         }
         cs.close();
         for (int i=0;i<ans.games.size();i++)

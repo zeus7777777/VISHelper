@@ -43,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
 
         //TestDb.testAll(MainActivity.this);
 
-        /*
-        Intent it = new Intent(MainActivity.this, ShowStatisticsActivity.class);
-        Log.d("mylengg", ""+new DB(MainActivity.this).getMatchByTime("8787").games.get(0).recordList.size());
-        ShowStatisticsActivity.hm = new DB(MainActivity.this).getMatchByTime("8787").games.get(0).getStatistic();
-        startActivity(it);*/
+
+        //Intent it = new Intent(MainActivity.this, ShowStatisticsActivity.class);
+        //Log.d("mylengg", ""+new DB(MainActivity.this).getMatchByTime("8787").games.get(0).recordList.size());
+        //ShowStatisticsActivity.hm = new DB(MainActivity.this).getMatchByTime("2016-08-26 04:32").games.get(0).getStatistic();
+        //startActivity(it);
     }
 }

@@ -1,4 +1,6 @@
 package com.mixerbox.hackathon.vis;
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -112,8 +114,12 @@ public class Game {
 		for(int i=0;i<recordList.size();i++)
 		{
 			Record rr = recordList.get(i);
+			if(rr.recordType!=RecordType.ACTION)
+				continue;
+			Log.d("recplaname", rr.playerName);
 			if(!hm.containsKey(rr.playerName))
 			{
+				Log.d("rrname",rr.playerName);
 				hm.put(rr.playerName, new PlayerStatistic());
 			}
 			set_statistic(rr, hm.get(rr.playerName));
