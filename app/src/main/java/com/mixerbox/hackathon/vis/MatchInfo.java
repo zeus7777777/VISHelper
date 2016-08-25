@@ -1,13 +1,11 @@
 package com.mixerbox.hackathon.vis;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+public class MatchInfo  {
+    String matchTime, oppoName;
 
-public class MatchInfo extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_match_info);
+    public MatchInfo(String _matchTime, String _opponame)
+    {
+        matchTime = _matchTime;
+        oppoName = _opponame;
     }
 }

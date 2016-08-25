@@ -13,10 +13,12 @@ public class Team {
 	
 	public Team(String _teamName)
 	{
+		teamName = _teamName;
 	}
 	
 	public void setTeamName(String _teamName)
 	{
+		teamName = _teamName;
 	}
 	
 	public void addPlayer()

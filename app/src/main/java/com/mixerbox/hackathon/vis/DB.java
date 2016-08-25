@@ -132,6 +132,10 @@ public class DB {
         cv.put(DBMatchBaseColumn.COLUMN_NAME_win, mm.myGamePoint);
         cv.put(DBMatchBaseColumn.COLUMN_NAME_lose, mm.oppositeGamePoint);
         cv.put(DBMatchBaseColumn.COLUMN_NAME_note, mm.note);
+        cv.put(DBMatchBaseColumn.COLUMN_NAME_numgame, mm.numGame);
+        cv.put(DBMatchBaseColumn.COLUMN_NAME_winscore, mm.winScore);
+        cv.put(DBMatchBaseColumn.COLUMN_NAME_maxscore, mm.maxScore);
+        cv.put(DBMatchBaseColumn.COLUMN_NAME_lastgamewinscore, mm.lastGameWinScore);
 
         db.insert(DBMatchBaseColumn.TABLE_NAME, DBMatchBaseColumn.COLUMN_NAME_matchtime, cv);
 
@@ -160,5 +164,82 @@ public class DB {
                 db.insert(DBRecordBaseColumn.TABLE_NAME, DBRecordBaseColumn.COLUMN_NAME_matchid, cv);
             }
         }
+    }
+
+    public ArrayList<MatchInfo> getMatchList()
+    {
+        DBHelper hh = new DBHelper(ctx);
+        SQLiteDatabase db = hh.getReadableDatabase();
+
+        String[] proj = {DBMatchBaseColumn.COLUMN_NAME_matchtime, DBMatchBaseColumn.COLUMN_NAME_opponame};
+        Cursor cs = db.query(DBMatchBaseColumn.TABLE_NAME, proj, null, null, null, null, null);
+        ArrayList<MatchInfo> ans = new ArrayList<>();
+        if(cs.getCount()==0)
+        {
+            return ans;
+        }
+        for(int i=0;i<cs.getCount();i++)
+        {
+            ans.add(new MatchInfo(cs.getString(0), cs.getString(1)));
+        }
+        return ans;
+    }
+
+    public Match getMatchByTime(String time)
+    {
+        DBHelper hh = new DBHelper(ctx);
+        SQLiteDatabase db = hh.getReadableDatabase();
+
+        String[] proj = {DBMatchBaseColumn.COLUMN_NAME_matchtime, DBMatchBaseColumn.COLUMN_NAME_teamname,
+            DBMatchBaseColumn.COLUMN_NAME_opponame, DBMatchBaseColumn.COLUMN_NAME_win,
+            DBMatchBaseColumn.COLUMN_NAME_lose, DBMatchBaseColumn.COLUMN_NAME_note,
+            DBMatchBaseColumn.COLUMN_NAME_numgame, DBMatchBaseColumn.COLUMN_NAME_winscore,
+            DBMatchBaseColumn.COLUMN_NAME_maxscore , DBMatchBaseColumn.COLUMN_NAME_lastgamewinscore,
+            DBMatchBaseColumn._ID};
+        String where = DBMatchBaseColumn.COLUMN_NAME_matchtime + " = ?";
+        String[] whereargs = {time};
+        Cursor cs = db.query(DBMatchBaseColumn.TABLE_NAME, proj, where, whereargs, null, null, null);
+        cs.moveToFirst();
+
+        Team tmp_team = getTeamByTeamName(cs.getString(1));
+
+        Match ans = new Match(cs.getInt(6), cs.getString(2), cs.getInt(7), cs.getInt(8), cs.getInt(9),
+                tmp_team, cs.getString(0));
+        for(int i=0;i<ans.myGamePoint+ans.oppositeGamePoint;i++)
+        {
+            ans.addGame(new Game(tmp_team));
+        }
+
+        int tmp_id = cs.getInt(10);
+        cs.close();
+
+        proj = new String[]{DBRecordBaseColumn.COLUMN_NAME_matchid, DBRecordBaseColumn.COLUMN_NAME_gameid,
+            DBRecordBaseColumn.COLUMN_NAME_type, DBRecordBaseColumn.COLUMN_NAME_param1,
+            DBRecordBaseColumn.COLUMN_NAME_param2, DBRecordBaseColumn.COLUMN_NAME_param3};
+        where = DBRecordBaseColumn._ID + " = ?";
+        whereargs = new String[]{tmp_id+""};
+        cs = db.query(DBRecordBaseColumn.TABLE_NAME, proj, where, whereargs, null, null,null);
+
+        for(int i = 0;i<cs.getCount();i++)
+        {
+            int game_id = cs.getInt(1);
+            String record_type = cs.getString(2);
+            if(record_type.equals(RecordType.TEAM_FAULT) || record_type.equals(RecordType.OPPONENT_ERROR))
+            {
+                ans.games.get(game_id).addRecord(new Record(RecordType.valueOf(record_type)));
+            }
+            else if(record_type.equals(RecordType.SUBSTITUTION))
+            {
+                ans.games.get(game_id).addRecord(new Record(RecordType.SUBSTITUTION, cs.getString(3), cs.getString(4)));
+
+            }
+            else
+            {
+                ans.games.get(game_id).addRecord(new Record(RecordType.ACTION, cs.getString(3),
+                    ActionType.valueOf( cs.getString(4)), ActionResultType.valueOf( cs.getString(5))));
+            }
+        }
+        cs.close();
+        return ans;
     }
 }
