@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PlayerInfo extends AppCompatActivity {
 
@@ -62,18 +63,38 @@ public class PlayerInfo extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String playerName = ((EditText) findViewById(R.id.player_name)).getText().toString();
+                String playerNickName = ((EditText) findViewById(R.id.player_nickname)).getText().toString();
+                String playerNumber = ((EditText) findViewById(R.id.player_number)).getText().toString();
+
                 Intent intent = new Intent();
                 intent.putExtra("_INDEX", index);
-                intent.putExtra("_NAME", ((EditText) findViewById(R.id.player_name)).getText().toString());
-                intent.putExtra("_NICKNAME", ((EditText) findViewById(R.id.player_nickname)).getText().toString());
+                intent.putExtra("_NAME", playerName);
+                intent.putExtra("_NICKNAME", playerNickName);
 
                 positionStr = spinner.getSelectedItem().toString();
                 positionStr = positionStr.replace(" ", "_");
                 positionStr = positionStr.toUpperCase();
 
                 intent.putExtra("_POSITION", positionStr);
-                intent.putExtra("_NUMBER", ((EditText) findViewById(R.id.player_number)).getText().toString());
-                setResult(Activity.RESULT_OK, intent);
+                intent.putExtra("_NUMBER", playerNumber);
+
+                if (playerName.length() != 0) {
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    Toast.makeText(PlayerInfo.this, "Please input player's name", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Button btnRemove = (Button) findViewById(R.id.btn_remove);
+        btnRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.putExtra("_INDEX", index);
+                setResult(RESULT_CANCELED, intent);
                 finish();
             }
         });

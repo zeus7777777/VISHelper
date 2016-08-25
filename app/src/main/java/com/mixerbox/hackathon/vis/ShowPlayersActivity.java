@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -59,12 +60,15 @@ public class ShowPlayersActivity extends AppCompatActivity {
             public void onClick(View view) {
                 team = new Team(((EditText) findViewById(R.id.team_name)).getText().toString(), playerArrayList);
                 db.writePlayers(team);
-                Log.d("TEAM_NAME", team.teamName);
-                Log.d("TEAM_SIZE", String.valueOf(team.playerList.size()));
                 for (int i = 0; i < team.playerList.size(); i++) {
-                    Log.d("TEAM_MEMBER " + String.valueOf(i), team.playerList.get(i).name);
                 }
-                finish();
+                if (team.teamName.length() != 0) {
+                    if (team.playerList.size() == 0)
+                        Toast.makeText(ShowPlayersActivity.this, "An empty team will be automatically removed", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(ShowPlayersActivity.this, "Please input team name", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -74,12 +78,15 @@ public class ShowPlayersActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("REQUEST_CODE", String.valueOf(requestCode));
         if (requestCode == ADD_PLAYER) {
             if (resultCode == RESULT_OK) {
                 Player player = new Player(data.getStringExtra("_NAME"), data.getStringExtra("_NICKNAME"),
                         Position.valueOf(data.getStringExtra("_POSITION")), data.getStringExtra("_NUMBER"));
                 playerArrayList.add(player);
+                update();
+            } else if (resultCode == RESULT_CANCELED) {
+                int index = data.getIntExtra("_INDEX", 0);
+                playerArrayList.remove(index);
                 update();
             }
         }
@@ -89,8 +96,11 @@ public class ShowPlayersActivity extends AppCompatActivity {
                         Position.valueOf(data.getStringExtra("_POSITION")), data.getStringExtra("_NUMBER"));
                 String playerStr = player.name + " " + player.nickName + " " + String.valueOf(player.position) + " " + player.number;
                 int index = data.getIntExtra("_INDEX", 0);
-                Log.d("INDEX: " + String.valueOf(index), playerStr);
                 team.playerList.set(index, player);
+                update();
+            } else if (resultCode == RESULT_CANCELED) {
+                int index = data.getIntExtra("_INDEX", 0);
+                playerArrayList.remove(index);
                 update();
             }
         }
