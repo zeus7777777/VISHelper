@@ -7,7 +7,7 @@ public class Game {
 	Team myTeam;
 	ArrayList<Record> recordList;
 	Player[] gameLocation; // 0-6
-	
+
 	public Game(Team _team, int _myScore, int oppoScore)
 	{
 		myTeam = _team;
