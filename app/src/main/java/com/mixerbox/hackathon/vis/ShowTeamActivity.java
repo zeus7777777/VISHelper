@@ -7,21 +7,44 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 public class ShowTeamActivity extends AppCompatActivity {
 
+    DB db = new DB(ShowTeamActivity.this);
+    static final int ADD_TEAM = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_team);
 
-        ArrayList<String> teamNameList = new ArrayList<String>();
-        teamNameList.add("NTU CSIE 系排A隊");
-        teamNameList.add("NTU CSIE 系排B隊");
+        Button addTeam = (Button) findViewById(R.id.btn_add_team);
+        addTeam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ShowTeamActivity.this, ShowPlayersActivity.class);
+                intent.putExtra("TEAM_NAME", "");
+                startActivity(intent);
+            }
+        });
 
+        update();
+
+        setTitle("Team List");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        update();
+    }
+
+    public void update() {
+        ArrayList<String> teamNameList = db.getTeamList();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(ShowTeamActivity.this,
                 R.layout.team_list_item, teamNameList);
         ListView listView = (ListView) findViewById(R.id.lv);
@@ -35,8 +58,5 @@ public class ShowTeamActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        setTitle("Team List");
     }
-
 }

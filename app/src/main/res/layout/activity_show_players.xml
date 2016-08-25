@@ -9,21 +9,43 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.mixerbox.hackathon.vis.ShowPlayersActivity">
 
-    <TextView
+    <EditText
+        android:id="@+id/team_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Team Name"
-        android:id="@+id/team_name"
-        android:textSize="25sp"
+        android:gravity="center"
         android:padding="5dp"
-        android:gravity="center"/>
+        android:textSize="25sp" />
 
-    <ListView
+    <Button
+        android:id="@+id/btn_add_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/team_name"
+        android:text="Add a Player" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lv">
+        android:layout_below="@id/btn_add_player"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
 
-    </ListView>
+        <ListView
+            android:id="@+id/lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+        </ListView>
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:text="save" />
+
+    </LinearLayout>
 
 </RelativeLayout>
