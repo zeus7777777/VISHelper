@@ -210,7 +210,7 @@ public class DB {
         ans.note = cs.getString(5);
         for(int i=0;i<ans.myGamePoint+ans.oppositeGamePoint;i++)
         {
-            ans.addGame(new Game(tmp_team));
+            ans.addGame(new Game(tmp_team, 0, 0));
         }
 
         int tmp_id = cs.getInt(10);
@@ -246,6 +246,21 @@ public class DB {
             }
         }
         cs.close();
+        for (int i=0;i<ans.games.size();i++)
+        {
+            set_game_scores(ans.games.get(i));
+        }
         return ans;
+    }
+
+    private  void set_game_scores(Game gg)
+    {
+        for(int i=0;i<gg.recordList.size();i++)
+        {
+            if(gg.recordList.get(i).getEffect()==1)
+                gg.myScore++;
+            else if(gg.recordList.get(i).getEffect()==-1)
+                gg.oppositeScore++;
+        }
     }
 }

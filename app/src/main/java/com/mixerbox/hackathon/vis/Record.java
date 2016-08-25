@@ -36,6 +36,21 @@ public class Record {
 	
 	public int getEffect()
 	{
+		if(recordType==RecordType.OPPONENT_ERROR)
+			return 1;
+		if(recordType==RecordType.TEAM_FAULT)
+			return -1;
+		if(recordType==RecordType.SUBSTITUTION)
+			return 0;
+		if(recordType==RecordType.ACTION)
+		{
+			if(actionResultType==ActionResultType.FAULT)
+				return -1;
+			if(actionResultType==ActionResultType.ATTEMPT)
+				return 0;
+			if(actionResultType==ActionResultType.EXCELLENT)
+				return 1;
+		}
 		return 0;
 	}
 }

@@ -21,12 +21,14 @@ public class Team {
 		teamName = _teamName;
 	}
 	
-	public void addPlayer()
+	public void addPlayer(Player player)
 	{
+		playerList.add(player);
 	}
 	
 	public void deletePlayerByIndex(int index)
 	{
+		playerList.remove(index);
 	}
 	
 	public Player getPlayer(int index)
@@ -36,5 +38,6 @@ public class Team {
 	
 	public void movePlayer(int from, int to)
 	{
+
 	}
 }
