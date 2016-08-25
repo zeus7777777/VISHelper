@@ -36,7 +36,7 @@ public class MatchInfoActivity extends AppCompatActivity {
         db = new DB(MatchInfoActivity.this);
         ArrayList<String> teamList = db.getTeamList();
         ArrayAdapter<String> adapterList = new ArrayAdapter<String>(MatchInfoActivity.this,
-                android.R.layout.simple_spinner_item, teamList);
+                R.layout.big_spinner, teamList);
         spMyTeam.setAdapter(adapterList);
 
         edOpTeam = (EditText)findViewById(R.id.ed_opteam);
