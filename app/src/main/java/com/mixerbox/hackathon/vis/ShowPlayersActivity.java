@@ -21,10 +21,6 @@ public class ShowPlayersActivity extends AppCompatActivity {
 
         ArrayList<Player> playerList = new ArrayList<Player>();
 
-        playerList.add(new Player(0, "小火龍", Position.WING_SPIKER, "10"));
-        playerList.add(new Player(1, "傑尼龜", Position.LIBERO, "2"));
-        playerList.add(new Player(2, "妙蛙種子", Position.MIDDLE_BLOCKER, "3"));
-
         PlayersAdapter adapter = new PlayersAdapter(ShowPlayersActivity.this, playerList);
         ListView listView = (ListView) findViewById(R.id.lv);
         listView.setAdapter(adapter);
@@ -34,7 +30,7 @@ public class ShowPlayersActivity extends AppCompatActivity {
                 Player _player = (Player) adapterView.getItemAtPosition(i);
                 Intent intent = new Intent(ShowPlayersActivity.this, PlayerInfo.class);
                 intent.putExtra("NAME", _player.name);
-                intent.putExtra("NICKNAME", _player.nickname);
+                intent.putExtra("NICKNAME", _player.nickName);
                 intent.putExtra("POSITION", _player.position);
                 intent.putExtra("NUMBER", _player.number);
                 startActivity(intent);
