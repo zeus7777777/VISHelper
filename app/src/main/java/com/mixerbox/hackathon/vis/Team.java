@@ -7,7 +7,8 @@ public class Team {
 	
 	public Team(String _teamName, ArrayList<Player> _playerList)
 	{
-		
+		teamName = _teamName;
+		playerList = _playerList;
 	}
 	
 	public Team(String _teamName)

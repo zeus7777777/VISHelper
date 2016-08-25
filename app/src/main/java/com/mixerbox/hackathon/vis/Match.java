@@ -13,10 +13,17 @@ public class Match {
 	
 	public Match(int _numGame, String oppo, int _winScore, int _maxScore, int _lastGameWinScore, Team _team)
 	{
+		numGame = _numGame;
+		oppositeTeamName = oppo;
+		winScore = _winScore;
+		maxScore = _maxScore;
+		lastGameWinScore = _lastGameWinScore;
+		myTeam = _team;
 	}
 	
 	public void addGame(Game _game)
 	{
+		//games.add(new Game());
 	}
 	
 	

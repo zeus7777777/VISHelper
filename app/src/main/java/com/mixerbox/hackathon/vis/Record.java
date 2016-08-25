@@ -5,19 +5,27 @@ public class Record {
 	String substitutionUp, substitutionDown; 
 	ActionType actionType;
 	ActionResultType actionResultType;
-	Player player;
+	String playerName;
 	
 	public Record(RecordType _recordType)
 	{
+		recordType = _recordType;
 	}
 	
-	public Record(RecordType _recordType, Player up, Player down)
+	public Record(RecordType _recordType, String up, String down)
 	{
+		recordType = _recordType;
+		substitutionUp = up;
+		substitutionDown = down;
 	}
 	
-	public Record(RecordType _recordType, Player player, 
+	public Record(RecordType _recordType, String _playerName,
 			ActionType _actionType, ActionResultType _actionResultType)
 	{
+		recordType = _recordType;
+		playerName = _playerName;
+		actionType = _actionType;
+		actionResultType = _actionResultType;
 	}
 	
 	@Override

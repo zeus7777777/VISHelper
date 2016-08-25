@@ -9,6 +9,7 @@ public class Game {
 	
 	public Game(Team _team)
 	{
+		myTeam = _team;
 	}
 	
 	public void shiftClockWise()
