@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
             <TextView
-                android:id="@+id/tv_loc4"
+                android:id="@+id/tv_loc3"
                 android:text="IV"
                 android:textSize="30sp"
                 android:gravity="center"
@@ -57,7 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
             <TextView
-                android:id="@+id/tv_loc3"
+                android:id="@+id/tv_loc2"
                 android:text="III"
                 android:textSize="30sp"
                 android:gravity="center"
@@ -65,7 +65,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
             <TextView
-                android:id="@+id/tv_loc2"
+                android:id="@+id/tv_loc1"
                 android:text="II"
                 android:textSize="30sp"
                 android:gravity="center"
@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
             <TextView
-                android:id="@+id/tv_loc5"
+                android:id="@+id/tv_loc4"
                 android:text="V"
                 android:textSize="30sp"
                 android:gravity="center"
@@ -87,7 +87,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
             <TextView
-                android:id="@+id/tv_loc6"
+                android:id="@+id/tv_loc5"
                 android:text="XI"
                 android:textSize="30sp"
                 android:gravity="center"
@@ -95,7 +95,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
             <TextView
-                android:id="@+id/tv_loc1"
+                android:id="@+id/tv_loc0"
                 android:text="I"
                 android:textSize="30sp"
                 android:gravity="center"
@@ -116,7 +116,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent" />
             <TextView
-                android:id="@+id/tv_loc7"
+                android:id="@+id/tv_loc6"
                 android:text="L"
                 android:textSize="30sp"
                 android:gravity="center"
@@ -126,6 +126,8 @@
         </LinearLayout>
     </LinearLayout>
     <GridView
+        android:id="@+id/gv_players"
+        android:numColumns="3"
         android:layout_weight="3"
         android:layout_width="match_parent"
         android:layout_height="0dp" />
