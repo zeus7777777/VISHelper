@@ -23,7 +23,7 @@ public class Game {
 		{
 			gameLocation[i] = gameLocation[i+1];
 		}
-		gameLocation[6] = tmp;
+		gameLocation[5] = tmp;
 	}
 	
 	public void shiftCounterClockWise()
