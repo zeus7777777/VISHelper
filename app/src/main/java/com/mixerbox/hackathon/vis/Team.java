@@ -38,6 +38,23 @@ public class Team {
 	
 	public void movePlayer(int from, int to)
 	{
-
+		Player tmp;
+		if(from < to)
+		{
+			if(to==playerList.size()-1)
+			{
+				playerList.add(playerList.get(from));
+			}
+			else
+			{
+				playerList.add(to+1, playerList.get(from));
+			}
+			playerList.remove(from);
+		}
+		else
+		{
+			playerList.add(to, playerList.get(from));
+			playerList.remove(from+1);
+		}
 	}
 }

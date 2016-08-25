@@ -6,7 +6,6 @@ public class Player {
 
 
     public Player(String _name, String _nickName, Position _position, String _number)
-
     {
         name = _name;
         nickName = _nickName;
@@ -14,6 +13,10 @@ public class Player {
         number = _number;
     }
 
-    public void editPlayer(String _name, String _position, String _number) {
+    public void editPlayer(String _nickName, Position _position, String _number)
+    {
+        nickName = _nickName;
+        position = _position;
+        number = _number;
     }
 }
