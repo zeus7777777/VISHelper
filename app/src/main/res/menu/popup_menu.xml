@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_substitute"
+        android:title="Substitute"/>
+    <item
+        android:id="@+id/menu_consecutive_contacts"
+        android:title="Consecutive Contacts"/>
+    <item
+        android:id="@+id/menu_four_hits"
+        android:title="Four Hits"/>
+    <item
+        android:id="@+id/menu_assist_hit"
+        android:title="Assist Hit"/>
+    <item
+        android:id="@+id/menu_catch"
+        android:title="Catch"/>
+    <item
+        android:id="@+id/menu_ball_crossing"
+        android:title="Ball Crossing"/>
+    <item
+        android:id="@+id/menu_reaching_over_net"
+        android:title="Reaching Over the Net"/>
+    <item
+        android:id="@+id/menu_penetration_under_net"
+        android:title="Penetration Under the Net"/>
+    <item
+        android:id="@+id/menu_contact_with_net"
+        android:title="Contact with the Net"/>
+    <item
+        android:id="@+id/menu_foot_fault"
+        android:title="Foot Fault"/>
+    <item
+        android:id="@+id/menu_attacking_fault"
+        android:title="Attacking Faults"/>
+    <item
+        android:id="@+id/menu_block_within_opponent_space"
+        android:title="Block within Oppenent Space"/>
+</menu>
