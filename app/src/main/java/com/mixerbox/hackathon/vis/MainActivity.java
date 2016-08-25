@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,5 +35,14 @@ public class MainActivity extends AppCompatActivity {
 
             dd.writeMatch(new Match(3, "an oppo name", 25, 25, 15, dd.getTeamByTeamName(a.get(i))));
         }*/
+
+        Button editBtn = (Button) findViewById(R.id.btn_edit_team);
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ShowTeamActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

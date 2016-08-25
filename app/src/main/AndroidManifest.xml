@@ -15,9 +15,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< Updated upstream
         <activity android:name=".MatchInfoActivity" />
         <activity android:name=".RotationSheetActivity" />
         <activity android:name=".GameActivity"></activity>
+=======
+        <activity android:name=".ShowTeamActivity" />
+        <activity android:name=".ShowPlayersActivity" />
+        <activity android:name=".PlayerInfo" />
+        <activity android:name=".EditPlayerActivity"></activity>
+>>>>>>> Stashed changes
     </application>
 
 </manifest>
