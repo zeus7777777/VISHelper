@@ -35,6 +35,15 @@ public class Team {
 	{
 		return playerList.get(index);
 	}
+
+	public ArrayList<String> getPlayerNumName() {
+		ArrayList<String> playerNumNameList = new ArrayList<>();
+		for (Player player: playerList) {
+			playerNumNameList.add(player.toString());
+			if (playerNumNameList.size() == 12) break;
+		}
+		return playerNumNameList;
+	}
 	
 	public void movePlayer(int from, int to)
 	{
