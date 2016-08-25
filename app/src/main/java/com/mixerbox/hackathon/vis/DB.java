@@ -56,6 +56,7 @@ public class DB {
         for(int i=0;i<cs.getCount();i++)
         {
             al.add(new Player(cs.getString(0), cs.getString(1), Position.valueOf(cs.getString(2)), cs.getString(3)));
+            cs.moveToNext();
         }
         return new Team(name, al);
     }
