@@ -1,5 +1,6 @@
 package com.mixerbox.hackathon.vis;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -35,6 +37,7 @@ public class GameActivity extends AppCompatActivity {
     Game game;
     Player curPlayer;
     ActionType curActionType;
+    ActionResultType curActionResultType;
     boolean flagRotate;
 
     @Override
@@ -43,6 +46,8 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         flagRotate = false;
+        curPlayer = null;
+        curActionResultType = null;
         game = MainActivity.match.games.get(MainActivity.match.games.size()-1);
 
         tvMyGameScore = (TextView)findViewById(R.id.tv_mygamescore);
@@ -144,10 +149,7 @@ public class GameActivity extends AppCompatActivity {
         btnEXCL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Record rec = new Record(RecordType.ACTION, curPlayer.toString(), curActionType, ActionResultType.EXCELLENT);
-                game.addRecord(rec);
-                clearCurPlayer();
-                showActionBtn();
+                newResult(ActionResultType.EXCELLENT);
             }
         });
 
@@ -155,10 +157,7 @@ public class GameActivity extends AppCompatActivity {
         btnKILL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Record rec = new Record(RecordType.ACTION, curPlayer.toString(), curActionType, ActionResultType.SUCCESS);
-                game.addRecord(rec);
-                clearCurPlayer();
-                getPoint();
+                newResult(ActionResultType.SUCCESS);
             }
         });
 
@@ -166,10 +165,7 @@ public class GameActivity extends AppCompatActivity {
         btnATP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Record rec = new Record(RecordType.ACTION, curPlayer.toString(), curActionType, ActionResultType.ATTEMPT);
-                game.addRecord(rec);
-                clearCurPlayer();
-                showActionBtn();
+                newResult(ActionResultType.ATTEMPT);
             }
         });
 
@@ -177,10 +173,7 @@ public class GameActivity extends AppCompatActivity {
         btnERR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Record rec = new Record(RecordType.ACTION, curPlayer.toString(), curActionType, ActionResultType.FAULT);
-                game.addRecord(rec);
-                clearCurPlayer();
-                losePoint();
+                newResult(ActionResultType.FAULT);
             }
         });
 
@@ -195,6 +188,7 @@ public class GameActivity extends AppCompatActivity {
             int idx = getTvIndex(view);
             curPlayer = game.gameLocation[idx];
             ((TextView)view).setTextColor(Color.RED);
+            if (curActionResultType != null) newResult(curActionResultType);
         }
     }
 
@@ -207,11 +201,30 @@ public class GameActivity extends AppCompatActivity {
         return -1;
     }
 
+    void newResult(ActionResultType actionResultType) {
+        curActionResultType = actionResultType;
+        if (curPlayer == null) {
+            Toast.makeText(GameActivity.this, "Please choose a player.", Toast.LENGTH_LONG).show();
+        } else {
+            Record rec = new Record(RecordType.ACTION, curPlayer.toString(), curActionType, curActionResultType);
+            game.addRecord(rec);
+            clearCurPlayer();
+            if (curActionResultType == ActionResultType.SUCCESS) {
+                getPoint();
+            } else if (curActionResultType == ActionResultType.FAULT) {
+                losePoint();
+            } else {
+                showActionBtn();
+            }
+            curActionResultType = null;
+        }
+    }
     private void losePoint() {
         flagRotate = true;
         curActionType = ActionType.RECEPTION;
         showResultBtn();
         refreshActivity();
+        checkFinish();
     }
 
     private void getPoint() {
@@ -222,6 +235,33 @@ public class GameActivity extends AppCompatActivity {
         tvGameLoc[0].setTextColor(Color.RED);
         showResultBtn();
         refreshActivity();
+        checkFinish();
+    }
+
+    void checkFinish() {
+        int a = game.myScore, b = game.oppositeScore;
+        int winScore = MainActivity.match.winScore;
+        if (MainActivity.match.games.size() == MainActivity.match.numGame) {
+            winScore = MainActivity.match.lastGameWinScore;
+        }
+
+        if ((Math.max(a, b) >= MainActivity.match.maxScore) ||
+                (Math.max(a, b) >= winScore && Math.abs(a-b) > 1)) {
+            if (a > b) MainActivity.match.myGamePoint++;
+            else MainActivity.match.oppositeGamePoint++;
+
+            a = MainActivity.match.myGamePoint;
+            b = MainActivity.match.oppositeGamePoint;
+            if (Math.max(a, b) > MainActivity.match.numGame / 2) {
+                DB db = new DB(GameActivity.this);
+                db.writeMatch(MainActivity.match);
+                Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(GameActivity.this, RotationSheetActivity.class);
+                startActivity(intent);
+            }
+        }
     }
 
     void clearCurPlayer() {
@@ -230,6 +270,7 @@ public class GameActivity extends AppCompatActivity {
             if (game.gameLocation[idx] == curPlayer) break;
         }
         tvGameLoc[idx].setTextColor(Color.BLACK);
+        curPlayer = null;
     }
 
     private void showActionBtn() {
