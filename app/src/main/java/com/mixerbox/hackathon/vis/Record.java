@@ -31,7 +31,23 @@ public class Record {
 	@Override
 	public String toString()
 	{
-		return null;
+		if(recordType==RecordType.TEAM_FAULT)
+		{
+			return "Team fault occurred.";
+		}
+		else if(recordType==RecordType.OPPONENT_ERROR)
+		{
+			return "Opponent error.";
+		}
+		else if(recordType==RecordType.SUBSTITUTION)
+		{
+			return substitutionUp+" up. " + substitutionDown + " down.";
+		}
+		else
+		{
+			return playerName +" " + actionType.toString().toLowerCase() + " -> "
+				+ actionResultType.toString().toLowerCase();
+		}
 	}
 	
 	public int getEffect()

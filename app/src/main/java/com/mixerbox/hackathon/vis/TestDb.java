@@ -31,7 +31,7 @@ public class TestDb {
             Game gg = new Game(dd.getTeamByTeamName(a.get(i)),0,0);
             gg.addRecord(new Record(RecordType.TEAM_FAULT));
             gg.addRecord(new Record(RecordType.SUBSTITUTION, tt.playerList.get(0).name, tt.playerList.get(0).name));
-            gg.addRecord(new Record(RecordType.ACTION, tt.playerList.get(0).name, ActionType.ATTACK, ActionResultType.ATTEMPT));
+            gg.addRecord(new Record(RecordType.ACTION, tt.playerList.get(0).toString(), ActionType.ATTACK, ActionResultType.ATTEMPT));
             mm.addGame(gg);
             dd.writeMatch(mm);
         }

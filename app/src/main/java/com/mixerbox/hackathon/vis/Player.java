@@ -19,4 +19,9 @@ public class Player {
         position = _position;
         number = _number;
     }
+
+    public String toString()
+    {
+        return number + " " +nickName;
+    }
 }
