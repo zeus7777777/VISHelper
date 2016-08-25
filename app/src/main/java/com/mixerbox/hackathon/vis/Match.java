@@ -11,7 +11,7 @@ public class Match {
 	String dateTime;
 	String note = "";
 	
-	public Match(int _numGame, String oppo, int _winScore, int _maxScore, int _lastGameWinScore, Team _team, String dateTime)
+	public Match(int _numGame, String oppo, int _winScore, int _maxScore, int _lastGameWinScore, Team _team, String dateTime, int win, int lose)
 	{
 		numGame = _numGame;
 		oppositeTeamName = oppo;
@@ -21,6 +21,8 @@ public class Match {
 		myTeam = _team;
 		games = new ArrayList<>();
 		this.dateTime = dateTime;
+		myGamePoint = win;
+		oppositeGamePoint = lose;
 	}
 	
 	public void addGame(Game _game)

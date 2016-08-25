@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -178,6 +179,7 @@ public class DB {
         {
             return ans;
         }
+        cs.moveToFirst();
         for(int i=0;i<cs.getCount();i++)
         {
             ans.add(new MatchInfo(cs.getString(0), cs.getString(1)));
@@ -204,7 +206,8 @@ public class DB {
         Team tmp_team = getTeamByTeamName(cs.getString(1));
 
         Match ans = new Match(cs.getInt(6), cs.getString(2), cs.getInt(7), cs.getInt(8), cs.getInt(9),
-                tmp_team, cs.getString(0));
+                tmp_team, cs.getString(0), cs.getInt(3), cs.getInt(4));
+        ans.note = cs.getString(5);
         for(int i=0;i<ans.myGamePoint+ans.oppositeGamePoint;i++)
         {
             ans.addGame(new Game(tmp_team));
@@ -219,16 +222,19 @@ public class DB {
         where = DBRecordBaseColumn._ID + " = ?";
         whereargs = new String[]{tmp_id+""};
         cs = db.query(DBRecordBaseColumn.TABLE_NAME, proj, where, whereargs, null, null,null);
+        cs.moveToFirst();
+
+        Log.d("LENGTH", ans.games.size()+"");
 
         for(int i = 0;i<cs.getCount();i++)
         {
             int game_id = cs.getInt(1);
             String record_type = cs.getString(2);
-            if(record_type.equals(RecordType.TEAM_FAULT) || record_type.equals(RecordType.OPPONENT_ERROR))
+            if(record_type.equals(RecordType.TEAM_FAULT.toString()) || record_type.equals(RecordType.OPPONENT_ERROR))
             {
                 ans.games.get(game_id).addRecord(new Record(RecordType.valueOf(record_type)));
             }
-            else if(record_type.equals(RecordType.SUBSTITUTION))
+            else if(record_type.equals(RecordType.SUBSTITUTION.toString()))
             {
                 ans.games.get(game_id).addRecord(new Record(RecordType.SUBSTITUTION, cs.getString(3), cs.getString(4)));
 

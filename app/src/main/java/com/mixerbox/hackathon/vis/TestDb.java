@@ -24,16 +24,29 @@ public class TestDb {
         ArrayList<String >  a = dd.getTeamList();
         for(int i=0;i<a.size();i++)
         {
-            dd.writeMatch(new Match(3, "an oppo name", 25, 25, 15, dd.getTeamByTeamName(a.get(i)), "0102"));
+            dd.writeMatch(new Match(3, "an oppo name", 25, 25, 15, dd.getTeamByTeamName(a.get(i)), "0102",2,1));
 
             Team tt = dd.getTeamByTeamName(a.get(i));
-            Match mm = new Match(3, "an oppo name", 25, 25, 15, dd.getTeamByTeamName(a.get(i)), "8787");
+            Match mm = new Match(3, "an oppo name", 25, 25, 15, dd.getTeamByTeamName(a.get(i)), "8787",2,1);
             Game gg = new Game(dd.getTeamByTeamName(a.get(i)));
             gg.addRecord(new Record(RecordType.TEAM_FAULT));
             gg.addRecord(new Record(RecordType.SUBSTITUTION, tt.playerList.get(0).name, tt.playerList.get(0).name));
             gg.addRecord(new Record(RecordType.ACTION, tt.playerList.get(0).name, ActionType.ATTACK, ActionResultType.ATTEMPT));
             mm.addGame(gg);
             dd.writeMatch(mm);
+        }
+    }
+
+    static void getTestMatchList(Context ctx)
+    {
+        DB dd = new DB(ctx);
+        ArrayList<MatchInfo> mi = dd.getMatchList();
+        for(int i=0;i<mi.size();i++)
+        {
+            Log.d("MatchList", mi.get(i).matchTime);
+            Log.d("MatchList", mi.get(i).oppoName);
+            Match mm =  dd.getMatchByTime(mi.get(i).matchTime);
+            Log.d("numgame", mm.numGame+"");
         }
     }
 }
