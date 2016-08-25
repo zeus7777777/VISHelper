@@ -5,12 +5,12 @@ public class Player {
     Position position;
 
 
-    public Player(String _name, String _nickName, String _position, String _number)
+    public Player(String _name, String _nickName, Position _position, String _number)
 
     {
         name = _name;
         nickName = _nickName;
-        position = Position.valueOf(_position);
+        position = _position;
         number = _number;
     }
 

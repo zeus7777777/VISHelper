@@ -54,7 +54,7 @@ public class DB {
         ArrayList<Player> al = new ArrayList<>();
         for(int i=0;i<cs.getCount();i++)
         {
-            al.add(new Player(cs.getString(0), cs.getString(1), cs.getString(2), cs.getString(3)));
+            al.add(new Player(cs.getString(0), cs.getString(1), Position.valueOf(cs.getString(2)), cs.getString(3)));
         }
         return new Team(name, al);
     }

@@ -20,7 +20,7 @@ public class ShowPlayersActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.team_name)).setText(getIntent().getStringExtra("TEAM_NAME"));
 
         ArrayList<Player> playerList = new ArrayList<Player>();
-
+        
         PlayersAdapter adapter = new PlayersAdapter(ShowPlayersActivity.this, playerList);
         ListView listView = (ListView) findViewById(R.id.lv);
         listView.setAdapter(adapter);

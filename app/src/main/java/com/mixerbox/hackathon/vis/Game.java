@@ -10,6 +10,7 @@ public class Game {
 	public Game(Team _team)
 	{
 		myTeam = _team;
+		recordList = new ArrayList<>();
 	}
 	
 	public void shiftClockWise()
@@ -34,6 +35,7 @@ public class Game {
 	
 	public void addRecord(Record record)
 	{
+		recordList.add(record);
 	}
 	
 	public void popRecord()
