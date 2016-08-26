@@ -1,19 +1,28 @@
 package com.mixerbox.hackathon.vis;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ButtonBarLayout;
+import android.support.v7.widget.ListViewCompat;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -182,6 +191,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
+
         refreshActivity();
     }
 
@@ -205,27 +215,74 @@ public class GameActivity extends AppCompatActivity {
     private class tvOnClickListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            clearCurPlayer();
             int idx = getTvIndex(view);
-            curPlayer = game.gameLocation[idx];
-            ((TextView)view).setTextColor(Color.RED);
-            if (curActionResultType != null) newResult(curActionResultType);
+            if (curPlayer == game.gameLocation[idx]) {
+                if (idx == 0) game.liberoUp();
+                else if (idx == 3) game.liberoDown();
+                curPlayer = game.gameLocation[idx];
+                clearCurPlayer();
+                refreshActivity();
+            } else {
+                clearCurPlayer();
+                curPlayer = game.gameLocation[idx];
+                ((TextView) view).setTextColor(Color.RED);
+                if (curActionResultType != null) newResult(curActionResultType);
+            }
         }
     }
 
     private class tvOnLongClickListener implements View.OnLongClickListener {
+
+        int idx;
+        AlertDialog dialog;
         @Override
         public boolean onLongClick(View view) {
-            int idx = getTvIndex(view);
+            idx = getTvIndex(view);
+            clearCurPlayer();
             curPlayer = game.gameLocation[idx];
             ((TextView)view).setTextColor(Color.RED);
             final PopupMenu popupmenu = new PopupMenu(GameActivity.this, view);
             popupmenu.inflate(R.menu.popup_menu);
             popupmenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.menu_substitute:
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
+                            final View dialogView = (LayoutInflater.from(GameActivity.this)).inflate(R.layout.dialog_players, null);
+
+                            ArrayList<String> playerList = game.myTeam.getPlayerNumName();
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(GameActivity.this,
+                                    R.layout.team_list_item, playerList);
+                            ListView lvChoose = (ListView)dialogView.findViewById(R.id.lv_choose);
+                            lvChoose.setAdapter(adapter);
+                            lvChoose.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                                    Player substitution = game.myTeam.getPlayer(pos);
+                                    for (int i = 0; i < 6; i++) {
+                                        if (game.gameLocation[i] == substitution) {
+                                            Toast.makeText(GameActivity.this, "Please choose a player not on the court.", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                    }
+                                    game.addRecord(new Record(RecordType.SUBSTITUTION, substitution.toString(), game.gameLocation[idx].toString()));
+                                    game.substitute(substitution, idx);
+                                    curPlayer = substitution;
+                                    refreshActivity();
+                                    dialog.cancel();
+                                }
+                            });
+
+                            builder.setView(dialogView);
+                            builder.setTitle("Choose Substitution");
+                            builder.setNegativeButton("Cancel", null);
+
+                            dialog = builder.create();
+                            dialog.show();
+
                             break;
                         default:
                             FoulType foulType = FoulType.valueOf(item.getTitle().toString().toUpperCase().replace(' ', '_'));
@@ -239,7 +296,9 @@ public class GameActivity extends AppCompatActivity {
             popupmenu.show();
             return true;
         }
+
     }
+
 
     int getTvIndex(View view) {
         for (int i = 0; i < 7; i++) {
