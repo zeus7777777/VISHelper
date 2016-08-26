@@ -81,6 +81,7 @@
 			<TextView
 				android:id="@+id/tv_game_loc3"
 				android:text="4\n陳璽安"
+				android:layout_margin="5dp"
 				android:textSize="30sp"
 				android:gravity="center"
 				android:layout_weight="1"
@@ -89,6 +90,7 @@
 			<TextView
 				android:id="@+id/tv_game_loc2"
 				android:text="3\n陳璽安"
+				android:layout_margin="5dp"
 				android:textSize="30sp"
 				android:gravity="center"
 				android:layout_weight="1"
@@ -97,6 +99,7 @@
 			<TextView
 				android:id="@+id/tv_game_loc1"
 				android:text="2\n陳璽安"
+				android:layout_margin="5dp"
 				android:textSize="30sp"
 				android:gravity="center"
 				android:layout_weight="1"
@@ -110,6 +113,7 @@
 			<TextView
 				android:id="@+id/tv_game_loc4"
 				android:text="5\n陳璽安"
+				android:layout_margin="5dp"
 				android:textSize="30sp"
 				android:gravity="center"
 				android:layout_weight="1"
@@ -118,6 +122,7 @@
 			<TextView
 				android:id="@+id/tv_game_loc5"
 				android:text="6\n陳璽安"
+				android:layout_margin="5dp"
 				android:textSize="30sp"
 				android:gravity="center"
 				android:layout_weight="1"
@@ -126,6 +131,7 @@
 			<TextView
 				android:id="@+id/tv_game_loc0"
 				android:text="1\n陳璽安"
+				android:layout_margin="5dp"
 				android:textSize="30sp"
 				android:gravity="center"
 				android:layout_weight="1"

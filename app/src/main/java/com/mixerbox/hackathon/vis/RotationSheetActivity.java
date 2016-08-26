@@ -93,7 +93,7 @@ public class RotationSheetActivity extends AppCompatActivity {
                             TextView v = (TextView)gvPlayers.getChildAt(idx);
                             if (v == null) Log.d("XDDDDD", Integer.toString(idx));
                             v.setClickable(true);
-                            v.setTextColor(Color.LTGRAY);
+                            v.setBackground(null);
                         }
                     }
                 }
@@ -166,12 +166,37 @@ public class RotationSheetActivity extends AppCompatActivity {
         for (int i = 0; i < 7; i++) {
             if (loc_filled[i]) {
                 tvLoc[i].setText(game.gameLocation[i].toString());
+                switch (game.gameLocation[i].position) {
+                    case WING_SPIKER:
+                        tvLoc[i].setBackgroundColor(Color.RED);
+                        tvLoc[i].setTextColor(Color.BLACK);
+                        break;
+                    case MIDDLE_BLOCKER:
+                        tvLoc[i].setBackgroundColor(Color.BLACK);
+                        tvLoc[i].setTextColor(Color.WHITE);
+                        break;
+                    case SETTER:
+                        tvLoc[i].setBackgroundColor(Color.BLUE);
+                        tvLoc[i].setTextColor(Color.BLACK);
+                        break;
+                    case OPPOSITE:
+                        tvLoc[i].setBackgroundColor(Color.GREEN);
+                        tvLoc[i].setTextColor(Color.BLACK);
+                        break;
+                    case LIBERO:
+                        tvLoc[i].setBackground(null);
+                        tvLoc[i].setTextColor(Color.BLACK);
+                        break;
+                    default:
+                        Log.d("HMMMM", "Default");
+                }
             } else {
                 tvLoc[i].setText(numbers[i]);
+                tvLoc[i].setTextColor(Color.BLACK);
+                tvLoc[i].setBackground(null);
             }
-            tvLoc[i].setTextColor(Color.BLACK);
         }
-        if (cur_loc >= 0) tvLoc[cur_loc].setTextColor(Color.RED);
+        if (cur_loc >= 0) tvLoc[cur_loc].setBackground(getResources().getDrawable(R.drawable.back));
     }
 
     int getTvIndex(View view) {

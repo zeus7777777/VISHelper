@@ -221,13 +221,13 @@ public class GameActivity extends AppCompatActivity {
                 else if (idx == 3) game.liberoDown();
                 curPlayer = game.gameLocation[idx];
                 clearCurPlayer();
-                refreshActivity();
             } else {
                 clearCurPlayer();
                 curPlayer = game.gameLocation[idx];
-                ((TextView) view).setTextColor(Color.RED);
+                //((TextView) view).setTextColor(Color.RED);
                 if (curActionResultType != null) newResult(curActionResultType);
             }
+            refreshActivity();
         }
     }
 
@@ -240,7 +240,7 @@ public class GameActivity extends AppCompatActivity {
             idx = getTvIndex(view);
             clearCurPlayer();
             curPlayer = game.gameLocation[idx];
-            ((TextView)view).setTextColor(Color.RED);
+            //((TextView)view).setTextColor(Color.RED);
             final PopupMenu popupmenu = new PopupMenu(GameActivity.this, view);
             popupmenu.inflate(R.menu.popup_menu);
             popupmenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -326,6 +326,7 @@ public class GameActivity extends AppCompatActivity {
             }
             curActionResultType = null;
         }
+        refreshActivity();
     }
     private void losePoint() {
         flagRotate = true;
@@ -340,7 +341,7 @@ public class GameActivity extends AppCompatActivity {
         flagRotate = false;
         curActionType = ActionType.SERVE;
         curPlayer = game.gameLocation[0];
-        tvGameLoc[0].setTextColor(Color.RED);
+        //tvGameLoc[0].setTextColor(Color.RED);
         showResultBtn();
         refreshActivity();
         checkFinish();
@@ -379,7 +380,7 @@ public class GameActivity extends AppCompatActivity {
             if (game.gameLocation[idx] == curPlayer) break;
         }
         if (idx < 6) {
-            tvGameLoc[idx].setTextColor(Color.BLACK);
+            //tvGameLoc[idx].setTextColor(Color.BLACK);
             curPlayer = null;
         }
     }
@@ -406,7 +407,37 @@ public class GameActivity extends AppCompatActivity {
         tvOpScore.setText(Integer.toString(game.oppositeScore));
 
         for (int i = 0; i < 6; i++) {
-            tvGameLoc[i].setText(game.gameLocation[i].toString());
+            Player player = game.gameLocation[i];
+            tvGameLoc[i].setText(player.toString());
+            switch (player.position) {
+                case WING_SPIKER:
+                    if (curPlayer == player) tvGameLoc[i].setBackground(getResources().getDrawable(R.drawable.back_red));
+                    else tvGameLoc[i].setBackgroundColor(Color.RED);
+                    tvGameLoc[i].setTextColor(Color.BLACK);
+                    break;
+                case MIDDLE_BLOCKER:
+                    if (curPlayer == player) tvGameLoc[i].setBackground(getResources().getDrawable(R.drawable.back_black));
+                    else tvGameLoc[i].setBackgroundColor(Color.BLACK);
+                    tvGameLoc[i].setTextColor(Color.WHITE);
+                    break;
+                case SETTER:
+                    if (curPlayer == player) tvGameLoc[i].setBackground(getResources().getDrawable(R.drawable.back_blue));
+                    else tvGameLoc[i].setBackgroundColor(Color.BLUE);
+                    tvGameLoc[i].setTextColor(Color.BLACK);
+                    break;
+                case OPPOSITE:
+                    if (curPlayer == player) tvGameLoc[i].setBackground(getResources().getDrawable(R.drawable.back_green));
+                    else tvGameLoc[i].setBackgroundColor(Color.GREEN);
+                    tvGameLoc[i].setTextColor(Color.BLACK);
+                    break;
+                case LIBERO:
+                    if (curPlayer == player) tvGameLoc[i].setBackground(getResources().getDrawable(R.drawable.back));
+                    else tvGameLoc[i].setBackground(null);
+                    tvGameLoc[i].setTextColor(Color.BLACK);
+                    break;
+                default:
+                    Log.d("HMMMM", "Default");
+            }
         }
     }
 }
