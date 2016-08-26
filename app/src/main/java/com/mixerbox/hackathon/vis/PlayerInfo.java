@@ -20,6 +20,7 @@ public class PlayerInfo extends AppCompatActivity {
     private ArrayAdapter<String> positonList;
     private String[] positions = {"Wing Spiker", "Setter", "Middle Blocker", "Opposite", "Libero"};
     private String positionStr;
+    static final int RESULT_REMOVE = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,9 @@ public class PlayerInfo extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("_INDEX", index);
                 intent.putExtra("_NAME", playerName);
+                if (playerNickName.length() == 0) {
+                    playerNickName = "" + playerName;
+                }
                 intent.putExtra("_NICKNAME", playerNickName);
 
                 positionStr = spinner.getSelectedItem().toString();
@@ -94,7 +98,7 @@ public class PlayerInfo extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.putExtra("_INDEX", index);
-                setResult(RESULT_CANCELED, intent);
+                setResult(RESULT_REMOVE, intent);
                 finish();
             }
         });

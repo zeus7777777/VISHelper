@@ -6,42 +6,46 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewDebug;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class PlayersAdapter extends BaseAdapter {
-    LayoutInflater inflater;
-    ArrayList<Player> playerList;
+public class PlayersAdapter extends ArrayAdapter<Player> {
 
-    public PlayersAdapter(Context ctx, ArrayList<Player> _playerList) {
-        inflater = LayoutInflater.from(ctx);
-        playerList = _playerList;
+    private static class ViewHolder {
+        private TextView itemView;
     }
 
-    @Override
-    public int getCount() {
-        return playerList.size();
+    public PlayersAdapter(Context context, int textViewResourceId, ArrayList<Player> items) {
+        super(context, textViewResourceId, items);
     }
 
-    @Override
-    public Object getItem(int i) {
-        return playerList.get(i);
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        ViewHolder viewHolder;
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(this.getContext())
+                    .inflate(R.layout.player_list_item, parent, false);
+
+            viewHolder = new ViewHolder();
+            viewHolder.itemView = (TextView) convertView.findViewById(R.id.player_name);
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        Player item = getItem(position);
+        if (item!= null) {
+            // My layout has only one TextView
+            // do whatever you want with your string and long
+            viewHolder.itemView.setText(String.format("%s %s", item.number, item.name));
+        }
+
+        return convertView;
     }
 
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        View v = inflater.inflate(R.layout.player_list_item, null);
-        Player player = (Player) getItem(i);
-        ((TextView) v.findViewById(R.id.player_name)).setText(player.name);
-        ((TextView) v.findViewById(R.id.player_number)).setText(player.number);
-
-        return v;
-    }
 }

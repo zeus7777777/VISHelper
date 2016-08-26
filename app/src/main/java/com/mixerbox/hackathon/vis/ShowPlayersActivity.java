@@ -1,9 +1,11 @@
 package com.mixerbox.hackathon.vis;
 
+import android.content.ClipDescription;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,15 +16,38 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mobeta.android.dslv.DragSortController;
+import com.mobeta.android.dslv.DragSortListView;
+
 import java.util.ArrayList;
 
 public class ShowPlayersActivity extends AppCompatActivity {
 
     DB db = new DB(ShowPlayersActivity.this);
-    static final int ADD_PLAYER = 1, EDIT_PLAYER = 2;
+    static final int ADD_PLAYER = 1, EDIT_PLAYER = 2, RESULT_REMOVE = 3;
     Team team;
     String teamName_intent;
     ArrayList<Player> playerArrayList;
+    DragSortListView listView;
+    ArrayAdapter<Player> adapter;
+
+    private DragSortListView.DropListener onDrop = new DragSortListView.DropListener() {
+        @Override
+        public void drop(int from, int to) {
+            if (from != to) {
+                Player item = adapter.getItem(from);
+                adapter.remove(item);
+                adapter.insert(item, to);
+            }
+        }
+    };
+
+    private DragSortListView.RemoveListener onRemove = new DragSortListView.RemoveListener() {
+        @Override
+        public void remove(int which) {
+            adapter.remove(adapter.getItem(which));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +109,7 @@ public class ShowPlayersActivity extends AppCompatActivity {
                         Position.valueOf(data.getStringExtra("_POSITION")), data.getStringExtra("_NUMBER"));
                 playerArrayList.add(player);
                 update();
-            } else if (resultCode == RESULT_CANCELED) {
+            } else if (resultCode == RESULT_REMOVE) {
                 int index = data.getIntExtra("_INDEX", 0);
                 playerArrayList.remove(index);
                 update();
@@ -94,11 +119,10 @@ public class ShowPlayersActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Player player = new Player(data.getStringExtra("_NAME"), data.getStringExtra("_NICKNAME"),
                         Position.valueOf(data.getStringExtra("_POSITION")), data.getStringExtra("_NUMBER"));
-                String playerStr = player.name + " " + player.nickName + " " + String.valueOf(player.position) + " " + player.number;
                 int index = data.getIntExtra("_INDEX", 0);
                 team.playerList.set(index, player);
                 update();
-            } else if (resultCode == RESULT_CANCELED) {
+            } else if (resultCode == RESULT_REMOVE) {
                 int index = data.getIntExtra("_INDEX", 0);
                 playerArrayList.remove(index);
                 update();
@@ -107,9 +131,21 @@ public class ShowPlayersActivity extends AppCompatActivity {
     }
 
     public void update() {
-        PlayersAdapter adapter = new PlayersAdapter(ShowPlayersActivity.this, playerArrayList);
-        ListView listView = (ListView) findViewById(R.id.lv);
+        adapter = new ArrayAdapter<Player>(ShowPlayersActivity.this, R.layout.player_list_item, R.id.player_name, playerArrayList);
+        listView = (DragSortListView) findViewById(R.id.lv);
         listView.setAdapter(adapter);
+        listView.setDropListener(onDrop);
+        listView.setRemoveListener(onRemove);
+
+        DragSortController controller = new DragSortController(listView);
+        controller.setRemoveEnabled(false);
+        controller.setSortEnabled(true);
+        controller.setDragInitMode(1);
+
+        listView.setFloatViewManager(controller);
+        listView.setOnTouchListener(controller);
+        listView.setDragEnabled(true);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -123,6 +159,7 @@ public class ShowPlayersActivity extends AppCompatActivity {
                 startActivityForResult(playerInfoIntent, EDIT_PLAYER);
             }
         });
+
     }
 
 }
