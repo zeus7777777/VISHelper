@@ -43,6 +43,7 @@ public class ShowTeamActivity extends AppCompatActivity {
     }
 
     public void update() {
+        db.deleteTeam("");
         ArrayList<String> teamNameList = db.getTeamList();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(ShowTeamActivity.this,
                 R.layout.team_list_item, teamNameList);
